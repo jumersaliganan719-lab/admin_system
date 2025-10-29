@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="d-flex">
+        <div class="bg-dark text-white p-3 vh-100" style="width: 250px;">
+            <h4 class="mb-4">Admin Panel</h4>
+            <ul class="nav flex-column">
+                <li class="nav-item"><a href="{{ url_for('dashboard') }}" class="nav-link text-white">Dashboard</a></li>
+                <li class="nav-item"><a href="{{ url_for('requests_page') }}" class="nav-link text-white">Requests</a></li>
+                <li class="nav-item"><a href="{{ url_for('records') }}" class="nav-link text-white">Records</a></li>
+                <li class="nav-item"><a href="{{ url_for('residents_page') }}" class="nav-link text-white">Residents</a></li>
+                <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link text-danger">Logout</a></li>
+            </ul>
+
+            <!-- Search bar -->
+            <form class="mt-4" method="get" action="{{ url_for('search') }}">
+                <div class="input-group">
+                    <input type="text" name="query" class="form-control" placeholder="Search name..." required>
+                    <button class="btn btn-primary" type="submit">Go</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow-1 p-4">
+            <h2 class="mb-4">Search Results for: "{{ query }}"</h2>
+
+            {% if results %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Contact Number</th>
+                            <th>Occupation</th>
+                            <th>Requested Document</th>
+                            <th>Date Requested</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                        <tr>
+                            <td>{{ result.fullname }}</td>
+                            <td>{{ result.contact }}</td>
+                            <td>{{ result.occupation }}</td>
+                            <td>{{ result.document_type }}</td>
+                            <td>{{ result.date_requested.strftime("%Y-%m-%d %H:%M") if result.date_requested else "N/A" }}</td>
+                            <td>
+                                {% if result.status == 'Approved' %}
+                                    <span class="badge bg-success">{{ result.status }}</span>
+                                {% elif result.status == 'Pending' %}
+                                    <span class="badge bg-warning text-dark">{{ result.status }}</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">{{ result.status }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p class="alert alert-info">No results found for "{{ query }}".</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

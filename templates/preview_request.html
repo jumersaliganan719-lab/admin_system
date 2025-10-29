@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Preview Request</title>
+</head>
+<body>
+  <h2>Preview Document Request</h2>
+  <p><strong>Full Name:</strong> {{ request.resident_name }}</p>
+  <p><strong>Age:</strong> {{ request.age }}</p>
+  <p><strong>Date of Birth:</strong> {{ request.dob }}</p>
+  <p><strong>Address:</strong> {{ request.address }}</p>
+  <p><strong>Occupation:</strong> {{ request.occupation }}</p>
+  <p><strong>Document Type:</strong> {{ request.document_type }}</p>
+  <p><strong>Status:</strong> {{ request.status }}</p>
+
+  <a href="{{ url_for('accept_request', request_id=request.id) }}">Approve & Record</a>
+  <a href="{{ url_for('dashboard') }}">Cancel</a>
+</body>
+</html>

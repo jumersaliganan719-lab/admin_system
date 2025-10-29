@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Certificate</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            width: 220px;
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+        }
+        .sidebar h4 {
+            margin-bottom: 30px;
+        }
+        .sidebar a {
+            display: block;
+            color: #fff;
+            padding: 10px 0;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+            border-radius: 4px;
+            padding-left: 10px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .certificate-preview {
+            width: 700px;
+            background-color: #fff;
+            padding: 50px;
+            border: 3px solid #000;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+        .certificate-preview h2 {
+            margin-bottom: 30px;
+            text-decoration: underline;
+        }
+        .certificate-preview p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+        .certificate-logo {
+            width: 100px;
+            margin-bottom: 15px;
+        }
+        .signature {
+            margin-top: 50px;
+        }
+        .signature span {
+            display: block;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+        .print-btn {
+            margin-top: 20px;
+        }
+
+        /* Print Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .certificate-preview, .certificate-preview * {
+                visibility: visible;
+            }
+            .certificate-preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                box-shadow: none;
+                padding: 50px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h4>Admin</h4>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/records">Records</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="certificate-preview">
+            <!-- ✅ Barangay Logo added here -->
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Barangay Logo" class="certificate-logo">
+
+            {% if purpose == "Barangay Clearance" %}
+                <h2>BANGARAY CLEARANCE</h2>
+                <p>This is to certify that <strong>{{ name }}</strong>, a resident of this barangay, has no derogatory record and is a law-abiding citizen.</p>
+
+            {% elif purpose == "Certificate of Residency" %}
+                <h2>CERTIFICATE OF RESIDENCY</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> is a bona fide resident of this barangay and has been residing here since [Date of Residency].</p>
+
+            {% elif purpose == "Indigency Certificate" or purpose == "Certificate of Indigency" %}
+                <h2>CERTIFICATE OF INDIGENCY</h2>
+                <p>This is to certify that <strong>{{ name }}</strong>, a resident of this barangay, is known to be indigent and belongs to a family of low economic means.</p>
+
+            {% elif purpose == "Certificate of Good Moral Character" %}
+                <h2>CERTIFICATE OF GOOD MORAL CHARACTER</h2>
+                <p>This is to certify that <strong>{{ name }}</strong>, a resident of this barangay, is of good moral character and is known to conduct himself/herself with integrity and honesty.</p>
+
+            {% elif purpose == "Certificate of Appearance" %}
+                <h2>CERTIFICATE OF APPEARANCE</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> appeared before the barangay for the requested purpose on [Date].</p>
+
+            {% elif purpose == "Certificate of No Pending Case" %}
+                <h2>CERTIFICATE OF NO PENDING CASE</h2>
+                <p>This is to certify that <strong>{{ name }}</strong>, a resident of this barangay, has no pending case filed against him/her as of the date of issuance.</p>
+
+            {% elif purpose == "Barangay Business Clearance" %}
+                <h2>BANGARAY BUSINESS CLEARANCE</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> has complied with barangay requirements and is authorized to operate a business within this barangay.</p>
+
+            {% elif purpose == "Certificate for Solo Parent" %}
+                <h2>CERTIFICATE FOR SOLO PARENT</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> is recognized as a solo parent under the guidelines of the Solo Parents’ Welfare Act of [Year].</p>
+
+            {% elif purpose == "Certificate for Senior Citizen" %}
+                <h2>CERTIFICATE FOR SENIOR CITIZEN</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> is a resident senior citizen of this barangay, aged [Age] years and above.</p>
+
+            {% elif purpose == "Certificate for Persons with Disabilities (PWD)" %}
+                <h2>CERTIFICATE FOR PERSONS WITH DISABILITIES (PWD)</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> is a person with disability registered in this barangay, entitled to benefits and privileges under the law.</p>
+
+            {% elif purpose == "Certificate of Guardianship" %}
+                <h2>CERTIFICATE OF GUARDIANSHIP</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> is the legal guardian of [Ward’s Name] as recognized by this barangay.</p>
+
+            {% elif purpose == "Certificate of Employment (within Barangay)" %}
+                <h2>CERTIFICATE OF EMPLOYMENT</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> is employed within this barangay and has been engaged in [Position/Work] since [Date].</p>
+
+            {% elif purpose == "Certificate of Low Income" %}
+                <h2>CERTIFICATE OF LOW INCOME</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> belongs to a low-income family based on barangay records and assessment.</p>
+
+            {% elif purpose == "Certificate for Scholarship Application" %}
+                <h2>CERTIFICATE FOR SCHOLARSHIP APPLICATION</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> is a resident of this barangay and is eligible to apply for scholarship programs.</p>
+
+            {% elif purpose == "Certificate for Building/Construction Permit" %}
+                <h2>CERTIFICATE FOR BUILDING/CONSTRUCTION PERMIT</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> has complied with barangay requirements to secure a building/construction permit.</p>
+
+            {% else %}
+                <h2>CERTIFICATE</h2>
+                <p>This is to certify that <strong>{{ name }}</strong> has requested this certificate for <strong>{{ purpose }}</strong> purposes.</p>
+            {% endif %}
+
+            <p>Issued this {{ now.strftime('%d') }} day of {{ now.strftime('%B, %Y') }} at Barangay Leonarda, Tuguegarao City, Cagayan, 3500.</p>
+            <div class="signature">
+                __________________________
+                <span>Barangay Captain / Authorized Official</span>
+            </div>
+        </div>
+        <button class="btn btn-success print-btn" onclick="window.print()">Print Certificate</button>
+    </div>
+</body>
+</html>

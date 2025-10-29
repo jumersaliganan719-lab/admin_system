@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Validate Document Request</title>
+</head>
+<body>
+  <h2>Validate Request</h2>
+  <form method="POST">
+    <label>Full Name:</label><br>
+    <input type="text" name="full_name" required><br><br>
+
+    <label>Age:</label><br>
+    <input type="number" name="age" required><br><br>
+
+    <label>Date of Birth:</label><br>
+    <input type="date" name="dob" required><br><br>
+
+    <label>Address:</label><br>
+    <input type="text" name="address" required><br><br>
+
+    <label>Occupation:</label><br>
+    <input type="text" name="occupation"><br><br>
+
+    <button type="submit">Save & Preview</button>
+  </form>
+  <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

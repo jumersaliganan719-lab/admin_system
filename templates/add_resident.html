@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Resident</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f9f9f9; }
+        form { max-width: 400px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        h2 { text-align: center; }
+        a { text-decoration: none; color: #555; display: block; text-align: center; margin-top: 10px; }
+
+        /* ✅ Added style for success/error message */
+        .message { text-align: center; margin-bottom: 10px; }
+        .success { color: green; }
+        .error { color: red; }
+        .cancel-btn {
+            background-color: #888;
+            color: white;
+            margin-top: 5px;
+        }
+        .cancel-btn:hover {
+            background-color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h2>Register New Resident</h2>
+
+    <!-- ✅ Optional message display -->
+    {% if message %}
+        <div class="message {{ 'success' if success else 'error' }}">{{ message }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <label>First Name</label>
+        <input type="text" name="firstname" required>
+
+        <label>Last Name</label>
+        <input type="text" name="lastname" required>
+
+        <label>Address</label>
+        <input type="text" name="address" required>
+
+        <label>Contact Number</label>
+        <input type="text" name="contact_number" pattern="[0-9]+" title="Numbers only" required>
+
+        <button type="submit">Register Resident</button>
+        <a href="{{ url_for('residents_page') }}" class="cancel-btn" style="display:block; text-align:center;">Cancel</a>
+    </form>
+
+    <a href="{{ url_for('residents_page') }}">← Back to Residents</a>
+</body>
+</html>
